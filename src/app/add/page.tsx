@@ -107,7 +107,7 @@ const AddPage = () => {
 
     try {
       const url = await upload();
-      const res = await fetch("http://localhost:3000/api/jobs", {
+      const res = await fetch(`${process.env.HOSTED_URL}/api/jobs`, {
         method: "POST",
         body: JSON.stringify({
           company_logo: url,

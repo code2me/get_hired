@@ -26,7 +26,7 @@ enum qualificationType {
 }
 
 // const getAllCandidates = async () => {
-//   const res = await fetch("http://localhost:3000/api/candidates", {
+//   const res = await fetch("http://127.0.0.1:3000/api/candidates", {
 //     method: "GET",
 //   });
 //   return res.json();
@@ -55,9 +55,13 @@ const ProfilePage = () => {
 
   const getProfileData = async () => {
     const userId = session?.user.userId;
-    const res = await fetch(`http://localhost:3000/api/candidates/${userId}`, {
-      method: "GET",
-    });
+    const res = await fetch(
+      `${process.env.HOSTED_URL}/api/candidates/${userId}`,
+      {
+        method: "GET",
+        cache: "no-store",
+      }
+    );
 
     if (!res.ok) {
       throw new Error("Failed!");
@@ -151,16 +155,18 @@ const ProfilePage = () => {
       let res;
       if (DataFetched) {
         const userId = session?.user.userId;
-        res = await fetch(`http://localhost:3000/api/candidates/${userId}`, {
+        res = await fetch(`${process.env.HOSTED_URL}/api/candidates/${userId}`, {
           method: "PUT",
+          cache: 'no-store',
           body: JSON.stringify({
             resume: url,
             ...inputs,
           }),
         });
       } else {
-        res = await fetch("http://localhost:3000/api/candidates", {
+        res = await fetch(`${process.env.HOSTED_URL}/api/candidates`, {
           method: "POST",
+          cache: 'no-store',
           body: JSON.stringify({
             resume: url,
             ...inputs,
