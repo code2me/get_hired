@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 type Inputs = {
@@ -14,6 +14,7 @@ type Inputs = {
   ectc: string;
   skills: string[];
   about: string;
+  resume: string;
   reason_to_apply: string;
   email: string;
   phone: string;
@@ -25,21 +26,9 @@ enum qualificationType {
   "Diploma",
 }
 
-// const getAllCandidates = async () => {
-//   const res = await fetch("http://127.0.0.1:3000/api/candidates", {
-//     method: "GET",
-//   });
-//   return res.json();
-// }
-
 const ProfilePage = () => {
   const { data: session, status } = useSession();
-
-  // getAllCandidates().then((res) => {
-  //   console.log(res);
-  // })
-
-  let DataFetched: boolean = false;
+  const [isDataFetched, setIsDataFetched] = useState(false);
   const [inputs, setInputs] = useState<Inputs>({
     name: "",
     role: "",
@@ -48,41 +37,36 @@ const ProfilePage = () => {
     ectc: "",
     skills: [],
     about: "",
+    resume: "",
     reason_to_apply: "",
     email: "",
     phone: "",
   });
 
-  const getProfileData = async () => {
-    const userId = session?.user.userId;
-    const res = await fetch(
-      `/api/candidates/${userId}`,
-      {
-        method: "GET",
-        cache: "no-store",
-      }
-    );
+  useEffect(() => {
+    const getProfileData = async () => {
+      if (session?.user.userId) {
+        const userId = session.user.userId;
+        const res = await fetch(`/api/candidates/${userId}`, {
+          method: "GET",
+          cache: "no-store",
+        });
 
-    if (!res.ok) {
-      throw new Error("Failed!");
-    }
-
-    return res.json();
-  };
-
-  if (session?.user.userId) {
-    getProfileData()
-      .then((fetchedData) => {
-        console.log("🚀 ~ file: page.tsx:72 ~ .then ~ fetchedData:", fetchedData)
-        if (fetchedData) {
-          DataFetched = true;
-          setInputs(fetchedData);
+        if (res.ok) {
+          const fetchedData = await res.json();
+          if (fetchedData) {
+            const { id, ...dataWithoutId } = fetchedData;
+            setInputs(dataWithoutId);
+            setIsDataFetched(true);
+          }
         }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+      }
+    };
+
+    if (status === "authenticated") {
+      getProfileData();
+    }
+  }, [session, status]);
 
   const [file, setFile] = useState<File>();
 
@@ -150,26 +134,32 @@ const ProfilePage = () => {
     e.preventDefault();
 
     try {
-      const url = await upload();
+      let url;
+
+      if (isDataFetched && !inputs.resume) {
+        url = await upload();
+      }
 
       let res;
-      if (DataFetched) {
+      if (isDataFetched) {
+        // UPDATE
         const userId = session?.user.userId;
         res = await fetch(`/api/candidates/${userId}`, {
           method: "PUT",
-          cache: 'no-store',
+          cache: "no-store",
           body: JSON.stringify({
-            resume: url,
             ...inputs,
+            resume: url,
           }),
         });
       } else {
+        // CREATE
         res = await fetch("/api/candidates", {
           method: "POST",
-          cache: 'no-store',
+          cache: "no-store",
           body: JSON.stringify({
-            resume: url,
             ...inputs,
+            resume: url,
           }),
         });
       }
@@ -209,6 +199,7 @@ const ProfilePage = () => {
               type="text"
               placeholder="John Doe"
               name="name"
+              value={inputs.name}
               onChange={handleChange}
             />
           </div>
@@ -219,6 +210,7 @@ const ProfilePage = () => {
               type="text"
               placeholder="Software Engineer"
               name="role"
+              value={inputs.role}
               onChange={handleChange}
             />
           </div>
@@ -231,6 +223,7 @@ const ProfilePage = () => {
               type="text"
               placeholder="2+"
               name="yoe"
+              value={inputs.yoe}
               onChange={handleChange}
             />
           </div>
@@ -260,6 +253,7 @@ const ProfilePage = () => {
               type="text"
               placeholder="16 LPA"
               name="ectc"
+              value={inputs.ectc}
               onChange={handleChange}
             />
           </div>
@@ -270,6 +264,7 @@ const ProfilePage = () => {
               type="text"
               placeholder="JAVA, PYTHON, JS/TS, Node.js, React.js"
               name="skills"
+              value={inputs.skills}
               onChange={handleChange}
             />
           </div>
@@ -280,6 +275,7 @@ const ProfilePage = () => {
               className="ring-1 ring-red-200 p-4 rounded-sm placeholder:text-red-200 outline-none"
               placeholder="I am a Senior Software Engineer with over 10 years of experience in software development. I have expertise in Java, Python, and C++. I am passionate about innovation and problem-solving."
               name="about"
+              value={inputs.about}
               onChange={handleChange}
             />
           </div>
@@ -292,6 +288,7 @@ const ProfilePage = () => {
               className="ring-1 ring-red-200 p-4 rounded-sm placeholder:text-red-200 outline-none"
               placeholder="Please give honest answer"
               name="reason_to_apply"
+              value={inputs.reason_to_apply}
               onChange={handleChange}
             />
           </div>
@@ -302,6 +299,7 @@ const ProfilePage = () => {
               type="text"
               placeholder="JohnDoe@example.com"
               name="email"
+              value={inputs.email}
               onChange={handleChange}
             />
           </div>
@@ -312,14 +310,16 @@ const ProfilePage = () => {
               type="text"
               placeholder="+91 987654321"
               name="phone"
+              value={inputs.phone}
               onChange={handleChange}
             />
           </div>
+
           <button
             type="submit"
             className="bg-red-500 ring-1 p-4 text-white w-48 rounded-md relative h-14 flex items-center justify-center hover:bg-white hover:ring-black hover:text-black"
           >
-            Save
+            {isDataFetched ? "Update Profile" : "Save Profile"}
           </button>
         </form>
       </div>

@@ -12,11 +12,9 @@ export const GET = async (
   try {
     const candidate = await prisma.candidate.findUnique({
       where: {
-        id: id,
+        userId: id,
       },
     });
-
-    // console.log(candidate);
 
     return new NextResponse(JSON.stringify(candidate), { status: 200 });
   } catch (err) {
@@ -41,7 +39,7 @@ export const PUT = async (
     try {
       await prisma.candidate.update({
         where: {
-          id: id,
+          userId: id,
         },
         data: body,
       });
