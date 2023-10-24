@@ -31,7 +31,7 @@ const DeleteButton = ({ id }: { id: string }) => {
     if (res.status === 200) {
       setTimeout(() => {
         router.push("/jobs");
-      }, 5000)
+      }, 3000)
       toast("The Job has been deleted!");
     } else {
       const data = await res.json();
