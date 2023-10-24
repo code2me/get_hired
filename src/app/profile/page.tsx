@@ -116,17 +116,19 @@ const ProfilePage = () => {
   const upload = async () => {
     const data = new FormData();
     data.append("file", file!);
-    data.append("upload_preset", "lappinos");
-
+    data.append("upload_preset", "gethired");
+    
     const res = await fetch(
-      "https://api.cloudinary.com/v1_1/navneetbahuguna/image/upload",
+      "https://api.cloudinary.com/v1_1/navneetbahuguna/raw/upload",
       {
         method: "POST",
+        mode: "cors",
         body: data,
       }
     );
 
     const resData = await res.json();
+    console.log("🚀 ~ file: page.tsx:130 ~ upload ~ resData:", resData.url)
     return resData.url;
   };
 
@@ -136,12 +138,13 @@ const ProfilePage = () => {
     try {
       let url;
 
-      if (isDataFetched && !inputs.resume) {
+      if (isDataFetched) {
         url = await upload();
       }
 
       let res;
       if (isDataFetched) {
+        console.log("🚀 ~ file: page.tsx:146 ~ handleSubmit ~ isDataFetched:", isDataFetched)
         // UPDATE
         const userId = session?.user.userId;
         res = await fetch(`/api/candidates/${userId}`, {

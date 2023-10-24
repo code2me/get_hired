@@ -88,12 +88,13 @@ const AddPage = () => {
   const upload = async () => {
     const data = new FormData();
     data.append("file", file!);
-    data.append("upload_preset", "lappinos");
+    data.append("upload_preset", "gethired");
 
     const res = await fetch(
       "https://api.cloudinary.com/v1_1/navneetbahuguna/image/upload",
       {
         method: "POST",
+        mode: "cors",
         body: data,
       }
     );
@@ -124,7 +125,7 @@ const AddPage = () => {
   };
 
   return (
-    <div className="p-4 lg:px-20 xl:px-40 h-[calc(100vh-11rem)] md:h-[calc(100vh-11rem)] flex items-center justify-center text-red-500">
+    <div className="p-4 lg:px-20 xl:px-40 h-[calc(100vh-7rem)] md:h-[calc(100vh-11rem)] flex items-center justify-center text-red-500">
       <div className="overflow-y-auto max-h-[80vh] w-[90%] md:[80%] no-scrollbar">
         <form onSubmit={handleSubmit} className="mt-4 flex flex-wrap gap-6 p-2">
           <h1 className="text-4xl mb-2 text-red-500 font-bold">Add New JOB</h1>
@@ -214,9 +215,9 @@ const AddPage = () => {
           </div>
           <div className="w-full flex flex-col gap-2 ">
             <label className="text-sm">Required Skills</label>
-            <input
+            <textarea
+              rows={2}
               className="ring-1 ring-red-200 p-4 rounded-sm placeholder:text-red-200 outline-none"
-              type="text"
               placeholder="JAVA, PYTHON, JS/TS, Node.js, React.js"
               name="skills"
               onChange={handleChange}
@@ -225,7 +226,7 @@ const AddPage = () => {
           <div className="w-full flex flex-col gap-2">
             <label className="text-sm">Job Description</label>
             <textarea
-              rows={3}
+              rows={5}
               className="ring-1 ring-red-200 p-4 rounded-sm placeholder:text-red-200 outline-none"
               placeholder="Seeking a Senior Software Engineer with deep expertise in software development, problem-solving skills, and a passion for innovation to lead and contribute to complex projects."
               name="jd"
@@ -235,7 +236,7 @@ const AddPage = () => {
           <div className="w-full flex flex-col gap-2">
             <label className="text-sm">Company Perks</label>
             <textarea
-              rows={3}
+              rows={5}
               className="ring-1 ring-red-200 p-4 rounded-sm placeholder:text-red-200 outline-none"
               placeholder="Our company offers a range of employee perks, including comprehensive healthcare, flexible work schedules, professional development opportunities, retirement plans, and wellness programs. We value work-life balance and invest in our employees' growth and well-being."
               name="perks"
@@ -264,7 +265,7 @@ const AddPage = () => {
           </div>
           <button
             type="submit"
-            className="bg-red-500 ring-1 p-4 text-white w-48 rounded-md relative h-14 flex items-center justify-center hover:bg-white hover:ring-black hover:text-black"
+            className="bg-red-500 w-full ring-1 p-4 text-white md:w-48 rounded-md relative h-14 flex items-center justify-center hover:bg-white hover:ring-black hover:text-black"
           >
             Save
           </button>

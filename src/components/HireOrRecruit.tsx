@@ -15,7 +15,7 @@ const HireOrRecruit = () => {
   return (
     <>
       {userType === "user" && (
-        <div className=" text-black flex flex-col items-center gap-6">
+        <div className="text-center text-black flex flex-col items-center gap-6">
           <h1 className="text-6xl uppercase font-extrabold mb-4 text-gray-800">
             Join Our Team
           </h1>
@@ -31,7 +31,7 @@ const HireOrRecruit = () => {
         </div>
       )}
       {(userType === "recuriter" || userType === "admin") && (
-        <div className="text-black flex flex-col items-center gap-6">
+        <div className="text-center text-black flex flex-col items-center gap-6">
           <h1 className="text-6xl uppercase font-extrabold mb-4 text-gray-800">
             Hire From Us
           </h1>

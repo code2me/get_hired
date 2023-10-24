@@ -45,7 +45,7 @@ const CandidatesPage = () => {
           {loading ? (
             <p>Loading candidates...</p>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto h-[calc(100vh-12rem)]">
               <table className="min-w-full table-auto border-collapse border border-gray-300">
                 <thead>
                   <tr>
@@ -60,34 +60,50 @@ const CandidatesPage = () => {
                     <th className="px-4 py-2 bg-gray-100">About</th>
                     <th className="px-4 py-2 bg-gray-100">Resume</th>
                     <th className="px-4 py-2 bg-gray-100">Reason to Apply</th>
-                    <th className="px-4 py-2 bg-gray-100">Email</th>
-                    <th className="px-4 py-2 bg-gray-100">Phone</th>
+                    <th className="px-4 py-2 bg-gray-100">Contact</th>
                   </tr>
                 </thead>
                 <tbody>
                   {candidates.map((candidate: UserType) => (
                     <tr key={candidate.id}>
-                      <td className="border px-4 py-2">{candidate.name}</td>
-                      <td className="border px-4 py-2">{candidate.role}</td>
-                      <td className="border px-4 py-2">{candidate.yoe}</td>
-                      <td className="border px-4 py-2">
+                      <td className="border px-4 py-2 text-center">
+                        {candidate.name}
+                      </td>
+                      <td className="border px-4 py-2 text-center">
+                        {candidate.role}
+                      </td>
+                      <td className="border px-4 py-2 text-center">
+                        {candidate.yoe}
+                      </td>
+                      <td className="border px-4 py-2 text-center">
                         {candidate.qualification}
                       </td>
-                      <td className="border px-4 py-2">{candidate.ectc}</td>
-                      <td className="border px-4 py-2">
+                      <td className="border px-4 py-2 text-center">
+                        {candidate.ectc}
+                      </td>
+                      <td className="border px-4 py-2 text-center">
                         {candidate.skills.join(", ")}
                       </td>
-                      <td className="border px-4 py-2">{candidate.about}</td>
-                      <td className="border px-4 py-2 hover:text-red-500">
-                        <Link href={`${candidate.resume}`}>
-                          {candidate.resume}
+                      <td className="border px-4 py-2 text-center">
+                        {candidate.about}
+                      </td>
+                      <td className="border px-4 py-2 text-center">
+                        <Link
+                          className="hover:bg-red-50 p-2 rounded-md hover:ring-1 hover:ring-red-100"
+                          href={`${candidate.resume}`}
+                          download
+                        >
+                          Link
                         </Link>
                       </td>
-                      <td className="border px-4 py-2">
+                      <td className="border px-4 py-2 text-center">
                         {candidate.reason_to_apply}
                       </td>
-                      <td className="border px-4 py-2">{candidate.email}</td>
-                      <td className="border px-4 py-2">{candidate.phone}</td>
+                      <td className="border px-4 py-2 text-center">
+                        {candidate.email}
+                        <br />
+                        {candidate.phone}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

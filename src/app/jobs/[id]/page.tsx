@@ -20,9 +20,9 @@ const SingleJobPage = async ({ params }: { params: { id: string } }) => {
   const job: JobType = await getData(params.id);
 
   return (
-    <div className="flex flex-col">
-      <div className="p-4 lg:px-20 xl:px-40 h-[calc(100vh-25rem)] flex flex-col md:flex-row md:gap-8 md:items-center relative">
-        <div className="relative w-[50%] h-1/2 md:h-[70%]">
+    <div className="flex flex-col h-screen md:h-[calc(100vh-6rem)] lg:h-[calc(100vh-12rem)]">
+      <div className="p-4 lg:px-20 xl:px-40 flex flex-col md:flex-row md:gap-8 md:items-center relative h-full">
+        <div className="relative w-full md:w-1/2 h-1/2 md:h-[70%] flex justify-center items-center">
           {job.company_logo && (
             <Image
               src={job.company_logo}
@@ -32,7 +32,7 @@ const SingleJobPage = async ({ params }: { params: { id: string } }) => {
             />
           )}
         </div>
-        <div className="h-1/2 flex flex-col gap-4 md:h-[70%] md:justify-center md:gap-6 xl:gap-8">
+        <div className="flex flex-col gap-4 md:h-[70%] md:justify-center md:gap-6 xl:gap-8">
           <h1 className="text-3xl font-bold uppercase flex items-center">
             <span>{job.company}</span>
             <DeleteButton id={job.id} />
@@ -48,7 +48,7 @@ const SingleJobPage = async ({ params }: { params: { id: string } }) => {
               <strong>Years of Experience:</strong> {job.yoe}
             </p>
             <p>
-              <strong>Qualification:</strong> {job.qualification}
+              <strong>Minimum Qualification:</strong> {job.qualification}
             </p>
             <p>
               <strong>CTC:</strong> {job.ctc}
@@ -57,7 +57,16 @@ const SingleJobPage = async ({ params }: { params: { id: string } }) => {
               <strong>Skills:</strong> {job.skills.join(", ")}
             </p>
           </div>
-          <p className="text-lg">{job.jd}</p>
+          <p className="text-lg">
+            <strong>Job Description:</strong>
+            <br />
+            {job.jd}
+          </p>
+          <p className="text-lg">
+            <strong>Perks:</strong>
+            <br />
+            {job.perks}
+          </p>
         </div>
       </div>
       <ApplyButton jobId={params.id} />
