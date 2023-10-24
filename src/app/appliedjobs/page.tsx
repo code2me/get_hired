@@ -84,7 +84,7 @@ const AppliedJobsPage = () => {
                 <td className="border px-4 py-2">{job.yoe}</td>
                 <td className="border px-4 py-2">{job.qualification}</td>
                 <td className="border px-4 py-2">{job.ctc}</td>
-                <td className="border px-4 py-2">{job.skills}</td>
+                <td className="border px-4 py-2">{job.skills.join(", ")}</td>
                 <td className="border px-4 py-2">{job.jd}</td>
                 <td className="border px-4 py-2">{job.perks}</td>
                 <td className="border px-4 py-2">
