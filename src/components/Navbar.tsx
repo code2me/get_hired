@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import UserLinks from "./UserLinks";
+import Menu from "./Menu";
 
 const Navbar = () => {
   return (
@@ -20,7 +21,7 @@ const Navbar = () => {
       </div>
       {/* MOBILE MENU */}
       <div className="md:hidden">
-        <h1>MENU</h1>
+        <Menu/>
       </div>
       {/* RIGHT LINKS */}
       <div className="hidden md:flex gap-4 items-center justify-end flex-1">

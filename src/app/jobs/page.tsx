@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 
 const getJobs = async () => {
   try {
-    const res = await fetch(`${process.env.HOSTED_URL}/api/jobs`, {
+    const res = await fetch("/api/jobs", {
       cache: "no-store",
     });
 
@@ -41,10 +41,10 @@ const Jobs = () => {
   }
 
   return (
-    <div className="p-4 lg:px-20 xl:px-40 h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex flex-wrap justify-center items-start gap-4">
+    <div className="p-4 lg:px-20 xl:px-40 h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex flex-wrap justify-center items-start gap-4 overflow-auto">
       {jobs.map((job) => (
         <Link href={`/jobs/${job.id}`} key={job.id}>
-          <div className="w-[15rem] h-[20rem] bg-gray-100 rounded-lg shadow-md p-4 ring-1 hover:ring-red-500">
+          <div className="w-[15rem] h-[20rem] bg-gray-100 rounded-lg shadow-md p-4 ring-1 hover:ring-red-500 ">
             <div className="text-center p-2 h-[40%]">
               <Image
                 src={job.company_logo}

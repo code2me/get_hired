@@ -56,7 +56,7 @@ const ProfilePage = () => {
   const getProfileData = async () => {
     const userId = session?.user.userId;
     const res = await fetch(
-      `${process.env.HOSTED_URL}/api/candidates/${userId}`,
+      `${process.env.NEXTAUTH_URL_URL}/api/candidates/${userId}`,
       {
         method: "GET",
         cache: "no-store",
@@ -155,7 +155,7 @@ const ProfilePage = () => {
       let res;
       if (DataFetched) {
         const userId = session?.user.userId;
-        res = await fetch(`${process.env.HOSTED_URL}/api/candidates/${userId}`, {
+        res = await fetch(`${process.env.NEXTAUTH_URL_URL}/api/candidates/${userId}`, {
           method: "PUT",
           cache: 'no-store',
           body: JSON.stringify({
@@ -164,7 +164,7 @@ const ProfilePage = () => {
           }),
         });
       } else {
-        res = await fetch(`${process.env.HOSTED_URL}/api/candidates`, {
+        res = await fetch(`${process.env.NEXTAUTH_URL_URL}/api/candidates`, {
           method: "POST",
           cache: 'no-store',
           body: JSON.stringify({

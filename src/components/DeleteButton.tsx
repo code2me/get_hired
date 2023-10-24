@@ -23,7 +23,7 @@ const DeleteButton = ({ id }: { id: string }) => {
   }
 
   const handleDelete = async () => {
-    const res = await fetch(`${process.env.HOSTED_URL}/api/jobs/${id}`, {
+    const res = await fetch(`${process.env.NEXTAUTH_URL_URL}/api/jobs/${id}`, {
       method: "DELETE",
       cache: "no-store",
     });

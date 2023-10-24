@@ -33,11 +33,14 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      return baseUrl;
+    },
     async session({ token, session }) {
       if (token) {
         session.user.isAdmin = token.isAdmin;
-        session.user.isRecuriter = token.isRecuriter; 
-        session.user.userId = token.userId; 
+        session.user.isRecuriter = token.isRecuriter;
+        session.user.userId = token.userId;
       }
       return session;
     },
