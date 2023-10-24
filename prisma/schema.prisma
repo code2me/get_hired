@@ -38,57 +38,61 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
-  isAdmin       Boolean   @default(false)
-  isRecuriter   Boolean   @default(false)
+  isAdmin       Boolean    @default(false)
+  isRecuriter   Boolean    @default(false)
   accounts      Account[]
   sessions      Session[]
   candidate     Candidate?
 }
 
 model VerificationToken {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  identifier    String
-  token         String    @unique
-  expires       DateTime
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
   @@unique([identifier, token])
 }
 
 model Candidate {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId          String    @db.ObjectId @unique
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String   @unique @db.ObjectId
   name            String
   role            String
   yoe             String
   qualification   String
   ectc            String
-  skills          String []
+  skills          String[]
   about           String
-  resume          String
+  resume          String?
   reason_to_apply String
   email           String
   phone           String
-  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobIDs          String[] @db.ObjectId
+  jobs            Job[]    @relation(fields: [jobIDs], references: [id])
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Job {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt       DateTime  @default(now())
-  company         String
-  company_logo    String
-  role            String
-  location        String
-  yoe             String
-  qualification   String
-  ctc             String
-  skills          String []
-  jd              String
-  perks           String
-  email           String
-  phone           String
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime    @default(now())
+  company       String
+  company_logo  String?
+  role          String
+  location      String
+  yoe           String
+  qualification String
+  ctc           String
+  skills        String[]
+  jd            String
+  perks         String
+  email         String
+  phone         String
+  candidateIDs  String[]    @db.ObjectId
+  candidates    Candidate[] @relation(fields: [candidateIDs], references: [id])
 }

@@ -60,7 +60,7 @@ const SingleJobPage = async ({ params }: { params: { id: string } }) => {
           <p className="text-lg">{job.jd}</p>
         </div>
       </div>
-      <ApplyButton />
+      <ApplyButton jobId={params.id} />
     </div>
   );
 };
