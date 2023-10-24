@@ -5,7 +5,7 @@ import Image from "next/image";
 import React from "react";
 
 const getData = async (id: string) => {
-  const res = await fetch(`${process.env.NEXTAUTH_URL_URL}/api/jobs/${id}`, {
+  const res = await fetch(`/api/jobs/${id}`, {
     cache: "no-store",
   });
 
