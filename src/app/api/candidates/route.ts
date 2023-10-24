@@ -5,8 +5,15 @@ import { getAuthSession } from "@/utils/auth";
 // FETCH ALL CANDIDATES
 export const GET = async (req: NextRequest) => {
   try {
-    const candidates = await prisma.candidate.findMany();
-    return new NextResponse(JSON.stringify(candidates), { status: 200 });
+    const session = await getAuthSession();
+    if(session?.user.isAdmin || session?.user.isRecuriter) {
+      const candidates = await prisma.candidate.findMany();
+      return new NextResponse(JSON.stringify(candidates), { status: 200 });
+    } else {
+      return new NextResponse(JSON.stringify({ message: "Not Authorized!" }), {
+        status: 403,
+      });
+    }
   } catch (err) {
     console.log(err);
     return new NextResponse(
