@@ -79,7 +79,7 @@ const CandidatesPage = () => {
                       </td>
                       <td className="border px-4 py-2">{candidate.about}</td>
                       <td className="border px-4 py-2 hover:text-red-500">
-                        <Link href={candidate.resume}>{candidate.resume}</Link>
+                        <Link href={"candidate.resume"}>{candidate.resume}</Link>
                       </td>
                       <td className="border px-4 py-2">
                         {candidate.reason_to_apply}
