@@ -5,7 +5,7 @@ import Menu from "./Menu";
 
 const Navbar = () => {
   return (
-    <div className="sticky top-0 z-20 bg-white text-red-500 p-4 flex items-center justify-between border-b-2 border-b-red-500 uppercase md:h-24 lg:px-20 xl:px-40">
+    <div className="sticky top-0 z-20 bg-white text-red-500 p-4 flex items-center justify-between uppercase md:h-22 lg:px-20 xl:px-20">
       {/* LEFT LINKS */}
       <div className="hidden md:flex gap-4 flex-1">
         <Link
